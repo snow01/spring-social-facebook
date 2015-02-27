@@ -89,6 +89,10 @@ public interface GroupOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_groups" or "friends_groups" permission.
 	 */
 	PagedList<GroupMembership> getMemberships(String userId);
+
+    public PagedList<GroupMembership> getMemberships(PagingParameters pagingParameters);
+
+    public PagedList<GroupMembership> getMemberships(String userId, PagingParameters pagingParameters);
 	
 	/**
 	 * Search for groups.

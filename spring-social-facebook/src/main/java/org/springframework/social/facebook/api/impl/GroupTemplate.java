@@ -58,13 +58,22 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 	
 	public PagedList<GroupMembership> getMemberships() {
-		return getMemberships("me");
+		return getMemberships(new PagingParameters(25, 0, null, null));
 	}
 	
 	public PagedList<GroupMembership> getMemberships(String userId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "groups", GroupMembership.class);
+        return getMemberships(userId, new PagingParameters(25, 0, null, null));
 	}
+
+    public PagedList<GroupMembership> getMemberships(PagingParameters pagingParameters) {
+        return getMemberships("me", pagingParameters);
+    }
+
+    public PagedList<GroupMembership> getMemberships(String userId, PagingParameters pagingParameters) {
+        requireAuthorization();
+        MultiValueMap<String, String> queryMap = PagedListUtils.getPagingParameters(pagingParameters);
+        return graphApi.fetchConnections(userId, "groups", GroupMembership.class, queryMap, "cover", "owner", "name", "description", "privacy", "icon", "updated_time", "email", "administrator", "bookmarkOrder", "unread");
+    }
 
 	public PagedList<Group> search(String query) {
 		return search(query,new PagingParameters(25, 0, null, null));
@@ -74,7 +83,7 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 		MultiValueMap<String, String> queryMap = PagedListUtils.getPagingParameters(pagedListParameters);
 		queryMap.add("q", query);
 		queryMap.add("type", "group");
-		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email");
+		queryMap.add("fields", "cover,owner,name,description,privacy,icon,updated_time,email,administrator,bookmarkOrder,unread");
 		return graphApi.fetchConnections("search", "", Group.class, queryMap);
 	}	
 	

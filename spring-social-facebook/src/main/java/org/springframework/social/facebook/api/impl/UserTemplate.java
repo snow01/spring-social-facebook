@@ -19,12 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.social.facebook.api.FacebookProfile;
-import org.springframework.social.facebook.api.GraphApi;
-import org.springframework.social.facebook.api.ImageType;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.Reference;
-import org.springframework.social.facebook.api.UserOperations;
+import org.springframework.social.facebook.api.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -97,5 +92,13 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		}
 		return permissions;
 	}
+
+    public PagedList<Group> getUserGroups() {
+        requireAuthorization();
+//        MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
+//        queryMap.add("q", query);
+//        queryMap.add("type", "user");
+        return graphApi.fetchConnections("me", "groups", Group.class);
+    }
 
 }

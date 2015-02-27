@@ -15,38 +15,13 @@
  */
 package org.springframework.social.facebook.api;
 
-public class GroupMembership extends FacebookObject {
+public class GroupMembership extends Group {
 
-	private final String id;
+	private int bookmarkOrder;
 	
-	private final String name;
-	
-	private final int bookmarkOrder;
-	
-	private final boolean administrator;
+	private boolean administrator;
 	
 	private int unread;
-
-	public GroupMembership(String id, String name, int bookmarkOrder, boolean administrator) {
-		this.id = id;
-		this.name = name;
-		this.bookmarkOrder = bookmarkOrder;
-		this.administrator = administrator;
-	}
-	
-	/**
-	 * @return the group ID
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @return the group name
-	 */
-	public String getName() {
-		return name;
-	}
 
 	/**
 	 * @return the group version (always 1)

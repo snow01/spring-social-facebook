@@ -28,10 +28,10 @@ project('manual') {
               doctype: 'book',
               numbered: '',
               'spring-social-facebook-version' : project.version,
-              'spring-social-version' : springSocialVersion,
-              'spring-version' : springVersion,
-              'spring-security-version' : springSecurityCryptoVersion,
-              'jacksonVersion' : jacksonVersion,
+              'spring-social-version' : dep_spring_social,
+              'spring-version' : dep_spring,
+              'spring-security-version' : dep_spring_security,
+              'jacksonVersion' : dep_jackson,
               revnumber : project.version
           ]
         ]

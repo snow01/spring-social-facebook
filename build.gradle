@@ -42,15 +42,15 @@ configure(allprojects - docProjects) {
 
     dependencies {
         testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-        testCompile "junit:junit-dep:$junitVersion"
+        testCompile "junit:junit-dep:$dep_junit"
         testCompile "org.mockito:mockito-all:$mockitoVersion"
-        testCompile "org.springframework:spring-test:$springVersion"
+        testCompile "org.springframework:spring-test:${dep_spring}"
     }
 
     ext.javadocLinks = [
         "http://docs.oracle.com/javase/7/docs/api/",
         "http://docs.oracle.com/javaee/7/api/",
-        "http://docs.spring.io/spring/docs/${springVersion}/javadoc-api/",
+        "http://docs.spring.io/spring/docs/${dep_spring}/javadoc-api/",
         "http://docs.jboss.org/jbossas/javadoc/4.0.5/connector/"
     ] as String[]
 
@@ -132,28 +132,28 @@ configure(subprojects - docProjects) { subproject ->
         springSnapshotTestRuntime.extendsFrom testRuntime
     }
 
-    // Test against latest Spring Framework release
-    configurations.springReleaseTestRuntime {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'org.springframework') {
-                details.useVersion springReleaseVersion
-            }
-        }
-    }
-
-    // Test against latest Spring Framework snapshot
-    configurations.springSnapshotTestRuntime {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'org.springframework') {
-                details.useVersion springSnapshotVersion
-            }
-        }
-    }
+//    // Test against latest Spring Framework release
+//    configurations.springReleaseTestRuntime {
+//        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//            if (details.requested.group == 'org.springframework') {
+//                details.useVersion springReleaseVersion
+//            }
+//        }
+//    }
+//
+//    // Test against latest Spring Framework snapshot
+//    configurations.springSnapshotTestRuntime {
+//        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//            if (details.requested.group == 'org.springframework') {
+//                details.useVersion springSnapshotVersion
+//            }
+//        }
+//    }
 
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.group == 'org.springframework') {
-                details.useVersion springReleaseVersion
+                details.useVersion dep_spring
             }
         }
     }
@@ -161,7 +161,7 @@ configure(subprojects - docProjects) { subproject ->
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.group == 'org.springframework.security') {
-                details.useVersion springSecurityVersion
+                details.useVersion dep_spring_security
             }
         }
     }
@@ -181,7 +181,7 @@ configure(subprojects - docProjects) { subproject ->
     check.dependsOn springSnapshotTest
 
     configure([test, springReleaseTest, springSnapshotTest]) {
-        systemProperties['springVersion'] = springVersion
+        systemProperties['springVersion'] = dep_spring
     }
 }
 
@@ -189,31 +189,31 @@ configure(subprojects - docProjects) { subproject ->
 project('spring-social-facebook') {
     description = 'Facebook API'
     dependencies {
-        compile ("org.springframework.social:spring-social-core:$springSocialVersion")
-        compile ("org.springframework.social:spring-social-config:$springSocialVersion")
-        compile ("org.springframework.social:spring-social-security:$springSocialVersion", optional)
-        compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-        compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-        compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
-        compile ("javax.servlet:javax.servlet-api:$servletApiVersion", provided)
-        testCompile ("org.springframework:spring-test:$springVersion")
+        compile ("org.springframework.social:spring-social-core:${dep_spring_social}")
+        compile ("org.springframework.social:spring-social-config:${dep_spring_social}")
+        compile ("org.springframework.social:spring-social-security:${dep_spring_social}", optional)
+        compile ("com.fasterxml.jackson.core:jackson-core:$dep_jackson")
+        compile ("com.fasterxml.jackson.core:jackson-databind:$dep_jackson")
+        compile ("com.fasterxml.jackson.core:jackson-annotations:$dep_jackson")
+        compile ("javax.servlet:javax.servlet-api:$dep_servlet_api", provided)
+        testCompile ("org.springframework:spring-test:${dep_spring}")
     }
 }
 
 project('spring-social-facebook-web') {
     description = 'Facebook Web'
     dependencies {
-        compile ("org.springframework:spring-web:$springVersion")
-        compile ("org.springframework:spring-webmvc:$springVersion")
-        compile ("org.springframework.social:spring-social-core:$springSocialVersion", optional)
+        compile ("org.springframework:spring-web:${dep_spring}")
+        compile ("org.springframework:spring-webmvc:${dep_spring}")
+        compile ("org.springframework.social:spring-social-core:${dep_spring_social}", optional)
         compile project(':spring-social-facebook', optional)
-        compile ("org.springframework.security:spring-security-crypto:$springSecurityCryptoVersion", optional)
-        compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion", optional)
-        compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion", optional)
-        compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion", optional)
-        compile ("javax.servlet:javax.servlet-api:$servletApiVersion", provided)
-        compile ("javax.servlet.jsp:javax.servlet.jsp-api:$jspApiVersion", provided)
-        testCompile ("org.springframework:spring-test:$springVersion")
+        compile ("org.springframework.security:spring-security-crypto:$dep_spring_security", optional)
+        compile ("com.fasterxml.jackson.core:jackson-core:$dep_jackson", optional)
+        compile ("com.fasterxml.jackson.core:jackson-databind:$dep_jackson", optional)
+        compile ("com.fasterxml.jackson.core:jackson-annotations:$dep_jackson", optional)
+        compile ("javax.servlet:javax.servlet-api:$dep_servlet_api", provided)
+        compile ("javax.servlet.jsp:javax.servlet.jsp-api:$dep_jsp_api", provided)
+        testCompile ("org.springframework:spring-test:${dep_spring}")
     }
 }
 

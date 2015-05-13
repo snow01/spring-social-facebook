@@ -45,6 +45,8 @@ configure(allprojects - docProjects) {
         testCompile "junit:junit-dep:$dep_junit"
         testCompile "org.mockito:mockito-all:$mockitoVersion"
         testCompile "org.springframework:spring-test:${dep_spring}"
+
+
     }
 
     ext.javadocLinks = [
@@ -197,6 +199,10 @@ project('spring-social-facebook') {
         compile ("com.fasterxml.jackson.core:jackson-annotations:$dep_jackson")
         compile ("javax.servlet:javax.servlet-api:$dep_servlet_api", provided)
         testCompile ("org.springframework:spring-test:${dep_spring}")
+
+        // TODO: remove it...
+        compile "org.apache.httpcomponents:httpclient:${dep_httpclient}"
+        compile "org.apache.httpcomponents:httpcore:${dep_httpclient}"
     }
 }
 
